@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts', # new
+    'utility',
+    'help',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +60,16 @@ ROOT_URLCONF = 'cmms_pon.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(BASE_DIR.joinpath('templates'))], # new
+        #'DIRS': [str(BASE_DIR.joinpath('templates'))], # new
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates/cmms_pon'),
+            os.path.join(BASE_DIR, 'help/templates/help'),
+            os.path.join(BASE_DIR, 'pm_ppdm/templates/pm_ppdm'),
+            os.path.join(BASE_DIR, 'reporting/templates/reporting'),
+            os.path.join(BASE_DIR, 'equipment/templates/equipment'),
+            os.path.join(BASE_DIR, 'utility/templates/utility'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,7 +146,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
@@ -144,7 +156,23 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# The absolute path to the directory where collectstatic will collect media files for deployment.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+
+# The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
+
 AUTH_USER_MODEL = 'accounts.CmmsUser' # new

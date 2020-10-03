@@ -1,0 +1,70 @@
+{% extends "base_cmms.html" %}
+
+{% load extra_tag %}
+
+{% block title %}
+    <title>utility config</title>
+{% endblock %}
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="WoForm">
+            <caption>Utility Configuration</caption>
+            <thead>
+              <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ form.as_table }}
+            </tbody>
+        </table>
+
+        <!--Multiple submit buttons-->
+        <!--Open file button-->
+        <div id="selected_file">
+          Selected file : {{file_name}}, 
+          <input type="submit" name="open_file" 
+          value="Open file" />
+        </div>
+
+        <!--Read file button-->
+        <input type="submit" name="read_file" 
+          value="Read file" /><br>
+
+        <!--Save to database button-->
+        <input type="submit" name="save_database" 
+          value="Save to database" />
+    </form>        
+
+    <!--Put data from file-->
+    <!--be carefull for initial during no data on dataDict, get ERROR-->
+    {%if dataDict %}
+      <table class="WoForm">
+        <caption>
+          <div>
+            Rec : {{dataDict|get_rowNbr}},
+            DB before : {{countBefore}},
+            DB after : {{countAfter}}
+          </div>
+        </caption>
+        <thead>
+          <tr>
+            {%for key in dataDict%}
+              <th scope="col">{{key}}</th>  
+            {%endfor%}
+          </tr>    
+        </thead>
+        <tbody>
+          {%for row in dataDict|get_colData%}
+            <tr>
+              {%for data in dataDict|get_rowData:row%}
+                <td>{{data}}</td>
+              {%endfor%}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>  
+    {%endif%}
+{% endblock %}
