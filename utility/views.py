@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
@@ -101,6 +101,7 @@ class ImportFileFormView(FormView):
         (4,'Action'),
         (5,'CmmsUser'),
         (6,'CmmsUserAction'),
+        (7,'CmmsUserGroup'),
     )
     #buffer context
     plus_context = {}
@@ -262,4 +263,17 @@ class ImportFileFormView(FormView):
                 #update_or_create_action_dict
                 CmmsUser.update_or_create_action_dict(dtDict)            
             self.plus_context['countAfter'] = CmmsUser.objects.all().count()
+
+        elif modelName == 'CmmsUserGroup':
+            for dtDict in dh.to_pair_dict(dataDict):
+                k=None
+                for k,v in dtDict.items():
+                    if k:
+                        break
+                #username as unique value
+                obj, created = g.objects.update_or_create(
+                    username=v,
+                    defaults=dtDict,
+                )    
+            self.plus_context['countAfter'] = User.objects.all().count()
 
