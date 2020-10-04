@@ -26,7 +26,10 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+    path('equipment/', include('equipment.urls')),
+    path('pm_pdm/', include('pm_pdm.urls')),
     path('work_order/', include('work_order.urls')),
+    path('reporting/', include('reporting.urls')),
     path('help/', include('help.urls')),
     path('utility/', include('utility.urls')),
 ]
