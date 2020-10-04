@@ -28,8 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'home-cmms'
+LOGOUT_REDIRECT_URL = 'home-cmms'
 
 # Application definition
 
@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts', # new
+    'accounts',
+    'work_order',
+    'asset',
     'utility',
     'help',
 ]
@@ -64,11 +66,6 @@ TEMPLATES = [
         'DIRS': [
             os.path.join(BASE_DIR, 'templates'),
             os.path.join(BASE_DIR, 'templates/cmms_pon'),
-            os.path.join(BASE_DIR, 'help/templates/help'),
-            os.path.join(BASE_DIR, 'pm_ppdm/templates/pm_ppdm'),
-            os.path.join(BASE_DIR, 'reporting/templates/reporting'),
-            os.path.join(BASE_DIR, 'equipment/templates/equipment'),
-            os.path.join(BASE_DIR, 'utility/templates/utility'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -90,21 +87,20 @@ WSGI_APPLICATION = 'cmms_pon.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'cmms_pon.sqlite3',
+    }
+}
+
+'''
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'cmms_pon', 
         'USER': 'postgres', 
         'PASSWORD': 'sampon170466',
         'HOST': '127.0.0.1', 
         'PORT': '5433',
-    }
-}
-
-'''
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'cmms_pon.sqlite3',
     }
 }
 

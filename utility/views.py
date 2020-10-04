@@ -20,6 +20,7 @@ from xlrd import open_workbook
 from cmms_pon import settings 
 from utility.forms import DepartmentForm, SectionForm, ImportFileForm
 from accounts.models import Department, Section, Action, Mode, Category, CmmsUser
+from work_order.models import Wo_priority
 from utility.transform import dict_helper as dh
 
 
@@ -102,6 +103,7 @@ class ImportFileFormView(FormView):
         (5,'CmmsUser'),
         (6,'CmmsUserAction'),
         (7,'CmmsUserGroup'),
+        (8,'Wo Priority'),
     )
     #buffer context
     plus_context = {}
@@ -271,9 +273,15 @@ class ImportFileFormView(FormView):
                     if k:
                         break
                 #username as unique value
-                obj, created = g.objects.update_or_create(
-                    username=v,
-                    defaults=dtDict,
+                obj, created = Group.objects.update_or_create(
+                    name=v,
                 )    
-            self.plus_context['countAfter'] = User.objects.all().count()
+            self.plus_context['countAfter'] = Group.objects.all().count()
+
+        elif modelName == 'Wo Priority':
+            for dtDict in dh.to_pair_dict(dataDict):
+                
+                #update_or_create_dict
+                Wo_priority.update_or_create_dict(dtDict)            
+            self.plus_context['countAfter'] = Wo_priority.objects.all().count()
 

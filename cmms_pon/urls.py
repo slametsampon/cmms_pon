@@ -26,6 +26,7 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+    path('work_order/', include('work_order.urls')),
     path('help/', include('help.urls')),
     path('utility/', include('utility.urls')),
 ]

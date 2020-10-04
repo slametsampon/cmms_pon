@@ -1,0 +1,78 @@
+{% extends "base_work_order.html" %}
+
+{% block title %}
+    <title>cmms Work Order Summary</title>
+{% endblock %}
+
+{% block content %}
+    <form action="" method="get">
+        <table class="WoForm">
+            <caption>Work Order Summary Input</caption>
+            <thead>
+                <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ form.as_table }}
+            </tbody>
+        </table>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <table class="WoSummary">
+        <caption>Work Order Summary</caption>
+        <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Description</th>
+            </tr>    
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">In Coming</th>
+                <td>{{ woOpen }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Schedule - In progress</th>
+                <td>{{ woInprogress }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Pending</th>
+                <td>{{ woPending }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Finish - Complete</th>
+                <td>{{ woFinishComplete }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Close</th>
+                <td>{{ woClose }}</td>
+            </tr>
+        </tbody>
+    </table> 
+    
+    <h5 id="woListTitle">{{caption}}</h5>
+    <ul>
+        {% for work_order in wo_list %}
+          <li>
+            <a href="{{ work_order.get_absolute_url }}">{{ work_order.wo_number }}</a>
+                ({{work_order.tagnumber}} : {{work_order.date_open}})
+          </li>
+        {% endfor %}
+    </ul>
+
+    <script type="text/javascript"> 
+        /* for date picker */
+        $(document).ready(function() {
+            $('.datepicker').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+
+        });
+
+    </script>
+    
+{% endblock %}

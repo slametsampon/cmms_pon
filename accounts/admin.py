@@ -20,6 +20,9 @@ class CmmsUserAdmin(UserAdmin):
         ('Approval Path', {
             'fields': ('forward_path', 'reverse_path', 'actions')
         }),
+        ('Groups', {
+            'fields': ('groups',)
+        }),
     )
     
 class ActionInline(admin.TabularInline):

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import Group
 
 
 class Section(models.Model):
@@ -216,6 +217,9 @@ class CmmsUser(AbstractUser):
     # Section as a string rather than object because it hasn't been declared yet in the file
     section = models.ForeignKey('Section', on_delete=models.SET_NULL, null=True)
 
+    # Foreign Key used because user can only have one group, but group can have multiple users
+    #group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True)
+
     #this decorator make posible to call method w/o instantiate class
     @classmethod
     #use cls instead of self, just for username and password
@@ -235,6 +239,11 @@ class CmmsUser(AbstractUser):
         dtDict['section'] = Section.objects.get(name = dtDict.get('foreign_section'))
         #remove key foreign_section
         dtDict.pop('foreign_section')
+
+        #insert group
+        dtDict['group'] = Group.objects.get(name = dtDict.get('foreign_group'))
+        #remove key foreign_group
+        dtDict.pop('foreign_group')
 
         #update from name to id
         usr = None

@@ -1,0 +1,28 @@
+{% extends "base_work_order.html" %}
+
+{% block title %}
+    <title>Wo Detail</title>
+{% endblock %}
+
+{% block content %}
+
+  <!--For Work order request-->
+  {% include 'Wo_request.html' %}
+
+  <!--For Work order request-->
+  {% include 'Wo_inprogress.html' %}
+  
+  {% if Wo_complete_report %}
+
+    <!--For Work order instruction-->
+    {% include 'Wo_instruction.html' %}
+
+    <!--For Work order instruction-->
+    {% include 'Wo_execution.html' %}
+
+  {% endif %}
+
+  <!--For Work order hystories-->
+  {% include 'Wo_hystory.html' %}
+
+{% endblock %}
