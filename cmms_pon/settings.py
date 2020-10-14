@@ -21,12 +21,17 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!bv@fwme(9g@cslyp$giy_@d(sq^gcrxs#1db=2@!eh0s=@35@'
+#SECRET_KEY = '!bv@fwme(9g@cslyp$giy_@d(sq^gcrxs#1db=2@!eh0s=@35@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','!bv@fwme(9g@cslyp$giy_@d(sq^gcrxs#1db=2@!eh0s=@35@')
+
+
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+
+ALLOWED_HOSTS = ['cmms-pon.herokuapp.com','127.0.0.1']
 
 LOGIN_REDIRECT_URL = 'home-cmms'
 LOGOUT_REDIRECT_URL = 'home-cmms'
@@ -40,6 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party
+    'crispy_forms',
+
+    #local module
     'accounts',
     'equipment',
     'pm_pdm',
@@ -170,7 +180,16 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'accounts.CmmsUser' # new
+
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)

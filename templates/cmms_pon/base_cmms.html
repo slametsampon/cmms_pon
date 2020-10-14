@@ -1,50 +1,59 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        {% block title %}<!-- insert title for every page -->{% endblock %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"> 
-        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-        <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-        
-        <!-- Add additional CSS in static file -->
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-        <script type="text/javascript" src="{% static 'js/woMisc.js' %}"></script>
+        <title>{% block title %}CMMS PT. PON{% endblock %}</title>
+        {% block css %}
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+            <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"> 
+            <!-- Add additional CSS in static file -->
+            <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        {% endblock %}
     </head>
     <body>
-        <div class="topnav">
-            <ul>
-                <li><a href="{% url 'home-cmms' %}">Home</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'equipment:home'%}">Equipment</a></li>   
-                    <li><a href="{% url 'pm_pdm:home'%}">PM PdM</a></li>   
-                    <li><a href="{% url 'work_order:home'%}">Work Order</a></li>   
-                    <li><a href="{% url 'reporting:home'%}">Reporting</a></li>   
-                    <li><a href="{% url 'utility:home'%}">Utility</a></li>   
-                    <li><a href="{% url 'help:cmms'%}">Help</a></li>   
-                    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
-                {% else %}
-                    <li><a href="{% url 'help:cmms'%}">Help</a></li>   
-                    <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
-                    <li style="float: right;"><a href="{% url 'signup' %}">Sign Up</a></li>   
-                {% endif %} 
-                {% if user.is_authenticated %}
-                    <li style="float: right;">User : {{ user.get_username }}</li>
-                {% endif %} 
-            </ul>
-        </div>
-        <div>{% block content %}{% endblock %}</div>
-
-        <!---
-        <div class="footer">
-            {% if user.is_authenticated %}
-                User : {{ user.get_username }}
-            {% endif %} 
-        </div>          
-        -->
+        {% block topMenu %}
+            <div class="topnav">
+                <ul>
+                    <li><a href="{% url 'home-cmms' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'work_order:home'%}">Work Order</a></li>   
+                        <li><a href="{% url 'equipment:home'%}">Equipment</a></li>   
+                        <li><a href="{% url 'pm_pdm:home'%}">PM PdM</a></li>   
+                        <li><a href="{% url 'reporting:home'%}">Reporting</a></li>   
+                        <li><a href="{% url 'utility:home'%}">Utility</a></li>   
+                        <li><a href="{% url 'help:cmms'%}">Help</a></li>   
+                        <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+                    {% else %}
+                        <li><a href="{% url 'help:cmms'%}">Help</a></li>   
+                        <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+                        <li style="float: right;"><a href="{% url 'signup' %}">Sign Up</a></li>   
+                    {% endif %} 
+                    {% if user.is_authenticated %}
+                        <li style="float: right;">User : {{ user.get_username }}</li>
+                    {% endif %} 
+                </ul>
+            </div>
+        {% endblock topMenu %}
+        {% block body %}
+            {% block content %}
+            {% endblock %}
+        {% endblock body %}
+  
+        {% block javascript %}
+            <!-- Bootstrap JavaScript -->
+            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        
+            <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+            <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+            
+            <!-- 3rd party JavaScript -->
+        
+            <!-- Project JS -->
+            <script type="text/javascript" src="{% static 'js/woMisc.js' %}"></script>    
+        {% endblock javascript %}
     </body>
 </html>
