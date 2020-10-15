@@ -7,10 +7,10 @@ class CmmsUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CmmsUser
-        fields = ('username', 'email')
+        fields = ('username', 'password')
 
 class CmmsUserChangeForm(UserChangeForm):
 
     class Meta:
         model = CmmsUser
-        fields = ('username', 'email')
+        fields = ('username', 'password')
