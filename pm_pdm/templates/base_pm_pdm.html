@@ -1,0 +1,25 @@
+<!-- templates/help/base_pm_pdm.html -->
+{% extends "base_cmms.html" %}
+
+<style>
+    ul {
+        padding: 0px 0px 0px 50px;
+    }
+</style>
+
+{% block topMenu %}
+<div class="topnav">
+    <ul>
+        <li><a href="{% url 'home-cmms' %}">Home</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'pm_pdm:home'%}">Pm PdM</a></li>   
+            <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+        {% else %}
+            <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+        {% endif %} 
+        {% if user.is_authenticated %}
+            <li style="float: right;">User : {{ user.get_username }}</li>
+        {% endif %} 
+    </ul>
+</div>
+{% endblock topMenu %}

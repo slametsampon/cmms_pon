@@ -178,7 +178,7 @@ class WoCompletion_form(ModelForm):
       return data
 
    manPower = forms.CharField(widget=forms.TextInput())
-   duration = forms.CharField(widget=forms.TextInput())
+   #duration = forms.CharField(widget=forms.TextInput())
    activity = forms.CharField(widget=forms.Textarea(attrs={'rows':4}))
    material = forms.CharField(widget=forms.Textarea(attrs={'rows':4}))
    tool = forms.CharField(widget=forms.Textarea(attrs={'rows':4}))
