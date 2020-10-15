@@ -1,7 +1,8 @@
 {% extends "base_work_order.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}
-    <title>Wo Completion</title>
+    Wo Completion
 {% endblock %}
 
 {% block content %}
@@ -12,100 +13,8 @@
   <!--For Work order instruction-->
   {% include 'Wo_instruction.html' %}
 
-  <form action="" method="post">
-    {% csrf_token %}
-    <table class="WoCompletion">
-      <caption>Work Order Completion</caption>
-      <thead>
+  <h4>Work Order Completion</h4>
 
-      </thead>
-      <tbody>
-        <!--Row 1-->
-        <tr>
-          {% for field in form %}
-
-            <!--Row 1, Col1 for Status, first char should Capital-->
-            {% if field.label == 'Status' %}
-              <td>
-                <div><strong>Date : </strong>{{date}}</div>
-                <div class="fieldWrapper form-group" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
-                    <strong>{{ field.label_tag }}</strong>
-                    {% if field.field.required %}<span class="required" style="color: red;">*</span>{% endif %}
-                    {{ field }}
-                </div>
-              </td>
-
-              <!--Row 1, Col2 for Manpower, first char should Capital-->
-              {% elif field.label == 'ManPower' %}
-              <td>
-                <div class="fieldWrapper form-group" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
-                    <strong>{{ field.label_tag }}</strong>
-                    {% if field.field.required %}<span class="required" style="color: red;">*</span>{% endif %}
-                    {{ field }}
-                </div>
-              </td>
-
-              <!--Row 1, Col3 for Duration, first char should Capital-->
-              {% elif field.label == 'Duration' %}
-              <td>
-                <div class="fieldWrapper form-group" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
-                    <strong>{{ field.label_tag }}</strong>
-                    {% if field.field.required %}<span class="required" style="color: red;">*</span>{% endif %}
-                    {{ field }}
-                </div>
-              </td>
-
-            {% endif %}
-          {% endfor %}
-        </tr>
-
-        <!--Row 2-->
-        <tr>
-          {% for field in form %}
-            <!--Row 2, Col1 for Activity, first char should Capital-->
-            {% if field.label == 'Activity' %}
-              <td>
-                <div class="fieldWrapper form-group" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
-                  <div>
-                    <strong>{{ field.label_tag }}</strong>
-                    {% if field.field.required %}<span class="required" style="color: red;">*</span>{% endif %}
-                  </div>
-                  {{ field }}
-                </div>
-              </td>
-
-            <!--Row 2, Col2 for Material, first char should Capital-->
-            {% elif field.label == 'Material' %}
-            <td>
-              <div class="fieldWrapper form-group" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
-                <div>
-                  <strong>{{ field.label_tag }}</strong>
-                  {% if field.field.required %}<span class="required" style="color: red;">*</span>{% endif %}
-                </div>
-              {{ field }}
-              </div>
-            </td>
-
-            <!--Row 2, Col3 for Tool, first char should Capital-->
-            {% elif field.label == 'Tool' %}
-            <td>
-              <div class="fieldWrapper form-group" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
-                <div>
-                  <strong>{{ field.label_tag }}</strong>
-                  {% if field.field.required %}<span class="required" style="color: red;">*</span>{% endif %}
-                </div>
-              {{ field }}
-              </div>
-            </td>
-
-            {% endif %}
-          {% endfor %}
-        </tr>
-
-      </tbody>
-    </table>
-
-    <input type="submit" value="Submit">
-  </form>
+  {% crispy form %}
 
 {% endblock %}

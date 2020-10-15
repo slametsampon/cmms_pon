@@ -41,7 +41,7 @@ class Wo_priority(models.Model):
 class Work_order(models.Model):
     """Model representing a work order"""
     wo_number = models.CharField(max_length=20, null=True)
-    tagnumber = models.CharField(max_length=50, null=True, help_text='Enter tagnumber(eg. FT-1405)')
+    tagnumber = models.CharField(max_length=50, null=True)
     problem = models.TextField(max_length=1000, null=True)
 
     # Foreign Key used because work order can only have one originator, but originator can have multiple work order

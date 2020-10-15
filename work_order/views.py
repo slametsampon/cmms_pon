@@ -425,20 +425,25 @@ class WoSummaryReportView(FormView):
         # Call the base implementation first to get a context self.kwargs.get("pk")
         context = super().get_context_data(**kwargs)
 
+        pending = CategoryAction.objects.get(name='Pending')
+        Schedule = CategoryAction.objects.get(name='Schedule')
+        Finish = CategoryAction.objects.get(name='Finish')
+        Close = CategoryAction.objects.get(name='Close')
+
         PENDING_STATUSES = []
-        for act in CategoryAction.objects.get(name='Pending').actions.all():
+        for act in Action.objects.filter(category=pending):
             PENDING_STATUSES.append(act)
 
         SCHEDULE_STATUSES = []
-        for act in CategoryAction.objects.get(name='Schedule').actions.all():
+        for act in Action.objects.filter(category=Schedule):
             SCHEDULE_STATUSES.append(act)
 
         FINISH_STATUSES = []
-        for act in CategoryAction.objects.get(name='Finish').actions.all():
+        for act in Action.objects.filter(category=Finish):
             FINISH_STATUSES.append(act)
 
         CLOSE_STATUSES = []
-        for act in CategoryAction.objects.get(name='Close').actions.all():
+        for act in Action.objects.filter(category=Close):
             CLOSE_STATUSES.append(act)
 
         #get form from context

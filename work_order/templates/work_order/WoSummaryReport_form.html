@@ -1,26 +1,14 @@
 {% extends "base_work_order.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}
-    <title>cmms Work Order Summary</title>
+    cmms Work Order Summary
 {% endblock %}
 
 {% block content %}
-    <form action="" method="get">
-        <table class="WoForm">
-            <caption>Work Order Summary Input</caption>
-            <thead>
-                <tr>
-                <th scope="col">Item</th>
-                <th scope="col">Data</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{ form.as_table }}
-            </tbody>
-        </table>
+    <h5>Work Order Summary Input</h5>
 
-        <input type="submit" value="Submit">
-    </form>
+    {% crispy form %}
 
     <table class="WoSummary">
         <caption>Work Order Summary</caption>
@@ -64,6 +52,9 @@
         {% endfor %}
     </ul>
 
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css"> 
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
     <script type="text/javascript"> 
         /* for date picker */
         $(document).ready(function() {
