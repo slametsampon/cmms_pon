@@ -3,7 +3,51 @@
 {% block title %}CMMS Help Home{% endblock %}
 
 {% block body %}
-  <!--get from help-->
-  {% include 'help_cmms.html' %}
+  <div class="container-fluid">
+    <div class="row">
+        <!---Left side of page, occupay 2 of 12 coulumn-->
+        <div class="col-sm-2">
+            {% block leftSidebar %}
+                <div>
+                    <h2>CMMS</h2>
+                    <p>Computer Maintenance Management System</p>
+                </div>
+            {% endblock leftSidebar %}
+        </div>
+        <!---middle side of page, occupay 8 of 12 coulumn-->
+        <div class="col-sm-8">
+            {% block content %}
+              {% include 'help/includes/cmmsDescription.html' %}
+            {% endblock %}
+        </div>
+        <!---Right side of page, occupay 2 of 12 coulumn-->
+        <div class="col-sm-2">
+            {% block rightSidebar %}
+                <div>
+                    <h2>CMMS Modules</h2>
+                    <p>
+                        Terdiri dari beberapa module yang terintegrasi sehingga 
+                        membentuk sistem secara keseluruhan dalam pengelolaan (manage) pemeliharaan aset.
+                    </p>
+                    <ul>
+                        <li><a href="{% url 'help:workOrder-Help' %}">Work Order</a></li>
+                        <li>
+                            <a href="{% url 'help:PmPdm-Help' %}">Preventive & Predictive Maintenance</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'help:Equipment-Help' %}">Equipment</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'help:Utility-Help' %}">Utility</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'help:Reporting-Help' %}">Reporting</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endblock rightSidebar %}
+        </div>
+    </div>    
+  </div>
 {% endblock body %}
 
