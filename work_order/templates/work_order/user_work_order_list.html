@@ -4,31 +4,46 @@
     Work order list
 {% endblock %}
 
-{% block content %}
-  <h3>Work Order List</h3>
-  {% if user_work_order_list %}
-  <ul>
-    {% for work_order in user_work_order_list %}
-      <li>
-        <a href="{{ work_order.get_absolute_url }}">{{ work_order.wo_number }}</a> ({{work_order.tagnumber}})
-      </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-    <p>There are no work order</p>
-  {% endif %}
+{% block body %}
+  <div class="container-fluid">
+    <div class="row">
+        <!---Left side of page, occupay 2 of 12 coulumn-->
+        <div class="col-sm-2">
+            <!--Severals link-->
+            {% block leftSidebar %}
+              {% if perms.work_order.add_work_order %}       
+                <a href="{% url 'work_order:work_order-create' %}">Create Work Order</a><br>
+              {% endif %}
+              {% if allowSummary %}       
+                  <a href="{% url 'work_order:work_order-summary' %}">Summary Work Order</a>
+              {% endif %}
+            {% endblock leftSidebar %}
+        </div>
+        <!---middle side of page, occupay 10 of 12 coulumn-->
+        <div class="col-sm-10">
+            {% block content %}
+              <h3>Work Order List</h3>
+              {% if user_work_order_list %}
+              <ul>
+                {% for work_order in user_work_order_list %}
+                  <li>
+                    <a href="{{ work_order.get_absolute_url }}">{{ work_order.wo_number }}</a> ({{work_order.tagnumber}})
+                  </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+                <p>There are no work order</p>
+              {% endif %}
 
-  <div>
-    <form action="" method="get">
-      {{ form.as_p }}
-    </form>                      
+              <div>
+                <form action="" method="get">
+                  {{ form.as_p }}
+                </form>                      
+              </div>
+            {% endblock content %}
+        </div>
+    </div>    
   </div>
+{% endblock body %}
 
-  <!--Severals link-->
-      {% if perms.work_order.add_work_order %}       
-        <a href="{% url 'work_order:work_order-create' %}">Create Work Order</a>
-      {% endif %}
-      {% if allowSummary %}       
-          <a href="{% url 'work_order:work_order-summary' %}">Summary Work Order</a>
-      {% endif %}
-{% endblock %}
+
