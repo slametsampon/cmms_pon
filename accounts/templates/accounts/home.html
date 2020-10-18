@@ -1,8 +1,9 @@
-{% extends "base_reporting.html" %}
+{% extends "base_accounts.html" %}
 
 {% block title %}
-    cmms reporting
+    cmms accounts
 {% endblock %}
+
 {% block body %}
   <div class="container-fluid">
     <div class="row">
@@ -10,21 +11,21 @@
         <div class="col-sm-2">
             {% block leftSidebar %}
                 <div>
-                    <h2>Reporting</h2>
-                    <p>Module yang menangani Reporting</p>
+                    <h2>Accounts</h2>
+                    <p><a href="{% url 'accounts:accounts'%}">Accounts</a></p>   
                 </div>
             {% endblock leftSidebar %}
         </div>
         <!---middle side of page, occupay 8 of 12 coulumn-->
         <div class="col-sm-8">
             {% block content %}
-              {% include 'help/includes/reportingDesription.html' %}
+              {% include 'help/includes/accountsDescription.html' %}
             {% endblock %}
         </div>
         <!---Right side of page, occupay 2 of 12 coulumn-->
         <div class="col-sm-2">
             {% block rightSidebar %}
-              {% include 'help/includes/reportingFeature.html' %}
+              {% include 'help/includes/accountsFeature.html' %}
             {% endblock rightSidebar %}
         </div>
     </div>    

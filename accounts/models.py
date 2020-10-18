@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import Group
 
 
@@ -289,6 +290,11 @@ class CmmsUser(AbstractUser):
         usr.actions.add(act)
         usr.save()
     
+    def get_absolute_url(self):
+        """Returns the url to access a list of work_orders."""
+        #"""Returns the url to access a detail record for this work order."""
+        return reverse('accounts:account-detail', args=[str(self.id)])
+
     def __str__(self):
         return self.username
 

@@ -7,22 +7,22 @@
 {% block content %}
 
   <!--For Work order request-->
-  {% include 'Wo_request.html' %}
+  {% include 'work_order/includes/Wo_request.html' %}
 
   <!--For Work order request-->
-  {% include 'Wo_inprogress.html' %}
+  {% include 'work_order/includes/Wo_inprogress.html' %}
   
   {% if Wo_complete_report %}
 
     <!--For Work order instruction-->
-    {% include 'Wo_instruction.html' %}
+    {% include 'work_order/includes/Wo_instruction.html' %}
 
     <!--For Work order instruction-->
-    {% include 'Wo_execution.html' %}
+    {% include 'work_order/includes/Wo_execution.html' %}
 
   {% endif %}
 
   <!--For Work order hystories-->
-  {% include 'Wo_hystory.html' %}
+  {% include 'work_order/includes/Wo_hystory.html' %}
 
 {% endblock %}

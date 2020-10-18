@@ -1,4 +1,4 @@
-<!-- templates/equipment/base_equipment.html -->
+<!-- templates/accounts/base_accounts.html -->
 {% extends "base_cmms.html" %}
 
 <style>
@@ -12,7 +12,7 @@
     <ul>
         <li><a href="{% url 'home-cmms' %}">Home</a></li>
         {% if user.is_authenticated %}
-            <li><a href="{% url 'equipment:home'%}">Equipment</a></li>   
+            <li><a href="{% url 'accounts:home'%}">Accounts</a></li>   
             <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
         {% else %}
             <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
