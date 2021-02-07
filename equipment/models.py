@@ -202,3 +202,4 @@ class Equipment(models.Model):
             defaults=dtDict,
         )            
 
+#just testing git
