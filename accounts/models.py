@@ -210,7 +210,7 @@ class CmmsUser(AbstractUser):
     forward_path = models.IntegerField(null=True)#CmmsUser.id
     reverse_path = models.IntegerField(null=True)#CmmsUser.id
 
-    # ManyToManyField used because Action can contain many ProfileUtilities. ProfileUtilities can cover many Actiones.
+    # ManyToManyField used because Action can contain many CmmsUsers. CmmsUser can cover many Actions.
     # Action class has already been defined so we can specify the object above.
     actions = models.ManyToManyField(Action, help_text='Select actions')
 

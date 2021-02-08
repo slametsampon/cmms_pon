@@ -1,8 +1,6 @@
 from django.db import models
-from django.urls import reverse
-from django.contrib.auth.models import Group
 from accounts.models import Section, Department
-
+from pm_pdm.models import PM_PdM
 
 class Category(models.Model):
     """Model representing a Category of equipment"""
@@ -50,7 +48,7 @@ class Risk(models.Model):
     """Model representing a Risk of RBM"""
     name = models.CharField(max_length=50, null=True, help_text='Enter name of Risk(eg. safety, enviromental)')
     description = models.CharField(max_length=200, null=True, help_text='Enter description of Risk')
-    value = models.IntegerField(null=True)#value 0 - 5
+    value = models.IntegerField(null=True)#value 1 - 5
 
     class Meta:
         ordering = ['name',]
@@ -165,9 +163,17 @@ class Equipment(models.Model):
     # Foreign Key used because Equipment can only have one unit, but unit can have multiple Equipments
     # unit as a string rather than object because it hasn't been declared yet in the file
     unit = models.ForeignKey(Unit, on_delete=models.SET_NULL, null=True)
-    rbmEnv = models.IntegerField(null=True)#value 1 - 5
-    rbmSafety = models.IntegerField(null=True)#value 1 - 5
-    rbmCont = models.IntegerField(null=True)#value 1 - 5
+    rbmValue = models.IntegerField(null=True)#value 1 - 125
+    rbmGrade = models.CharField(max_length=50, null=True, help_text='Enter grade of Risk(eg. Critical, Normal, Less)')
+
+    # ManyToManyField used because Equipment can contain many risks. risk can cover many equipments.
+    # Action class has already been defined so we can specify the object above.
+    risks = models.ManyToManyField(Risk, help_text='Select risks')
+
+    # ManyToManyField used because tbm can contain many PM_PdM. PM_PdM can cover many tbm.
+    # PM_PdM class has already been defined so we can specify the object above.
+    tbm = models.ManyToManyField(PM_PdM, help_text='Select PM_PdM')
+
     class Meta:
         ordering = ['unit','name']
 
@@ -202,4 +208,97 @@ class Equipment(models.Model):
             defaults=dtDict,
         )            
 
-#just testing git
+    #Many to many relationship
+    #this decorator make posible to call method w/o instantiate class
+    @classmethod
+    #use cls instead of self
+    def update_or_create_risks_dict(cls,dtDict):
+
+        #get Equipment
+        eqp = None
+        if dtDict.get('name'):
+            eqp = Equipment.objects.get(name = dtDict.get('name'))
+
+        #get risk
+        rsk = None
+        if dtDict.get('risk'):
+            rsk = Risk.objects.get(name=dtDict.get('risk'))
+
+        #add rsk to Equipment
+        eqp.risks.add(rsk)
+        eqp.save()
+    
+    #Many to many relationship
+    #this decorator make posible to call method w/o instantiate class
+    @classmethod
+    #use cls instead of self
+    def update_or_create_tbm_dict(cls,dtDict):
+
+        #get Equipment
+        eqp = None
+        if dtDict.get('name'):
+            eqp = Equipment.objects.get(name = dtDict.get('name'))
+
+        #get tbm - PmPdM
+        pm_pdm = None
+        if dtDict.get('risk'):
+            pm_pdm = Risk.objects.get(name=dtDict.get('risk'))
+
+        #add pm_pdm to Equipment
+        eqp.tbm.add(pm_pdm)
+        eqp.save()
+    
+class TBM_Package(models.Model):
+    """Model representing a TBM - Time Based Maintenance"""
+    name = models.CharField(max_length=50, null=True, help_text='Enter name of TBM(eg. PM Critical)')
+    description = models.CharField(max_length=200, null=True, help_text='Enter description of TBM')
+    periode = models.IntegerField(null=True, help_text='Enter periode of TBM (week)')#value 1 - 51
+
+    # ManyToManyField used because eqpPackage can contain many Equipment. Equipment can cover many eqpPackages.
+    # Equipment class has already been defined so we can specify the object above.
+    eqpPackage = models.ManyToManyField(Equipment, help_text='Select TBM')
+
+    class Meta:
+        ordering = ['periode','name']
+
+    def __str__(self):
+        """String for representing the Model object."""
+        return self.name
+
+    #this decorator make posible to call method w/o instantiate class
+    @classmethod
+    #use cls instead of self
+    def update_or_create_dict(cls,dtDict):
+
+        #get first key for unique key
+        k=None
+        for k,v in dtDict.items():
+            if k:
+                break
+        
+        #name as unique value, kindly modify as needed
+        return cls.objects.update_or_create(
+            name=v,
+            defaults=dtDict,
+        )            
+
+    #Many to many relationship
+    #this decorator make posible to call method w/o instantiate class
+    @classmethod
+    #use cls instead of self
+    def update_or_create_package_dict(cls,dtDict):
+
+        #get TBM_Package
+        pkg = None
+        if dtDict.get('name'):
+            pkg = TBM_Package.objects.get(name = dtDict.get('name'))
+
+        #get Equioment
+        eqp = None
+        if dtDict.get('eqp'):
+            eqp = Equipment.objects.get(name=dtDict.get('eqp'))
+
+        #add eqp to TBM_Package
+        pkg.risks.add(eqp)
+        pkg.save()
+    
