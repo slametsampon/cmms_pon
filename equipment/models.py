@@ -6,6 +6,7 @@ class Category(models.Model):
     """Model representing a Category of equipment"""
     name = models.CharField(max_length=50, null=True, help_text='Enter name of Category(eg. Motor, Compressor...)')
     description = models.CharField(max_length=200, null=True, help_text='Enter description of Category')
+
     # Foreign Key used because Category can only have one section, but section can have multiple Categorys
     # Category as a string rather than object because it hasn't been declared yet in the file
     section = models.ForeignKey(Section, on_delete=models.SET_NULL, null=True)
@@ -160,9 +161,17 @@ class Equipment(models.Model):
     """Model representing a Equipment of Plant"""
     name = models.CharField(max_length=50, null=True, help_text='Enter name of Equipment(eg. TI-4102, C-018, P-021)')
     description = models.CharField(max_length=200, null=True, help_text='Enter description of Equipment')
+    location = models.CharField(max_length=100, null=True, help_text='Enter location of Equipment')
+
+    # Foreign Key used because Equipment can only have one category, but category can have multiple Equipments
+    # category as a string rather than object because it hasn't been declared yet in the file
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+
     # Foreign Key used because Equipment can only have one unit, but unit can have multiple Equipments
     # unit as a string rather than object because it hasn't been declared yet in the file
     unit = models.ForeignKey(Unit, on_delete=models.SET_NULL, null=True)
+
+    #RBM data - Risk Based Maintenance
     rbmValue = models.IntegerField(null=True)#value 1 - 125
     rbmGrade = models.CharField(max_length=50, null=True, help_text='Enter grade of Risk(eg. Critical, Normal, Less)')
 
@@ -186,7 +195,17 @@ class Equipment(models.Model):
     #use cls instead of self
     def update_or_create_dict(cls,dtDict):
 
-        #get unit object
+        #get category object - it is for one to many ORM
+        categoryName = dtDict.get('foreign_category')
+        categoryObj = Category.objects.get(name = categoryName)
+
+        #remove key foreign_category
+        dtDict.pop('foreign_category')
+
+        #insert category
+        dtDict['category']=categoryObj
+
+        #get unit object - it is for one to many ORM
         unitName = dtDict.get('foreign_unit')
         unitObj = Unit.objects.get(name = unitName)
 
